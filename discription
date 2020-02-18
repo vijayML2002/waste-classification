@@ -1,0 +1,75 @@
+                              	   IMAGE CLASSIFIER
+
+* add the path1
+
+* add the path2
+
+* train_data=[]
+
+* train_label=[]
+
+* for img in tqdm(os.listdir(path1)):
+	label=1
+	img_array=cv2.imread(os.path.join(path1,img),cv2.IMREAD_GRAYSCALE)
+	img_array=cv2.resize(img_array,(28,28))
+	train_data.append(np.array(img_array))
+	train_label.append(label)
+
+* for img in tqdm(os.listdir(path2)):
+	label=0
+	img_array=cv2.imread(os.path.join(path2,img),cv2.IMREAD_GRAYSCALE)
+	img_array=cv2.resize(img_array,(28,28))
+	train_data.append(np.array(img_array))
+	train_label.append(label)
+
+* train_new=[]
+
+* train_data=np.array(train_data)
+
+* train_new=train_data.reshape(-1,28,28,1)
+
+* model = tf.keras.Sequential([
+    tf.keras.layers.Flatten(input_shape=( 28, 28, 1)),
+    tf.keras.layers.Dense(128, activation=tf.nn.relu),
+    tf.keras.layers.Dense(2,  activation=tf.nn.softmax)
+    ])
+
+* model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+* model.fit(train_new,train_label_new,epochs=5,steps_per_epoch=10)
+
+* add path of test1
+
+* add path of test2
+
+* test_data=[]
+
+* test_label=[]
+
+* for img in tqdm(os.listdir(path1)):
+	label=0
+	img_array=cv2.imread(os.path.join(path1,img),cv2.IMREAD_GRAYSCALE)
+	img_array=cv2.resize(img_array,(28,28))
+	test_data.append(np.array(img_array))
+	test_label.append(label)
+
+* for img in tqdm(os.listdir(path2)):
+	label=1
+	img_array=cv2.imread(os.path.join(path2,img),cv2.IMREAD_GRAYSCALE)
+	img_array=cv2.resize(img_array,(28,28))
+	test_data.append(np.array(img_array))
+	test_label.append(label)
+
+* test_new=[]
+
+* test_data=np.array(test_data)
+
+* test_new=test_data.reshape(-1,28,28,1)
+
+* test_label_new=np.array(test_label)
+
+* test_loss, test_accuracy = model.evaluate(test_new,test_label_new, steps=10)
+
+* pred=model.predict(test_new)
